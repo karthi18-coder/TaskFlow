@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7fb">
+  <title>TaskFlow — Your Productivity Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+<div class="app-shell">
+
+  <header class="main-navbar">
+
+    <a class="brand" href="#">
+      <span class="brand-icon">✦</span>
+      <span>Task<span class="brand-accent">Flow</span></span>
+    </a>
+
+    <div class="navbar-section">
+      <p class="nav-section-label">WORKSPACE</p>
+
+      <nav class="side-nav" aria-label="Task filters">
+        <button class="nav-item active" data-filter="all">
+          <span>▦</span> All tasks
+          <span class="nav-count" id="allCount">0</span>
+        </button>
+
+        <button class="nav-item" data-filter="active">
+          <span>◷</span> In progress
+          <span class="nav-count" id="activeCount">0</span>
+        </button>
+
+        <button class="nav-item" data-filter="completed">
+          <span>✓</span> Completed
+          <span class="nav-count" id="completedCount">0</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="navbar-section">
+      <p class="nav-section-label">CATEGORIES</p>
+
+      <nav class="side-nav" aria-label="Category filters">
+        <button class="nav-item category-filter" data-category="Work">
+          <span class="category-dot work-dot"></span> Work
+        </button>
+
+        <button class="nav-item category-filter" data-category="Personal">
+          <span class="category-dot personal-dot"></span> Personal
+        </button>
+
+        <button class="nav-item category-filter" data-category="Study">
+          <span class="category-dot study-dot"></span> Study
+        </button>
+      </nav>
+    </div>
+
+    <div class="navbar-right">
+      <button id="themeToggle" class="theme-toggle" type="button">
+        <span id="themeIcon">☾</span>
+        <span id="themeLabel">Dark mode</span>
+      </button>
+    </div>
+
+  </header>
+
+  <main class="main-content">
+
+
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+          <p id="todayDate" class="today-date"></p>
+        </div>
+        <div class="profile-chip">
+          <div class="avatar">T</div>
+          <div><strong>My Workspace</strong><small>Productivity dashboard</small></div>
+        </div>
+      </header>
+
+      <section class="welcome-section">
+        <div>
+          <p class="eyebrow">LET'S MAKE IT COUNT ✨</p>
+          <h1>Make today <span>amazing.</span></h1>
+          <p class="welcome-subtitle">Organize your tasks, protect your focus, and celebrate every win.</p>
+        </div>
+        <div class="welcome-art" aria-hidden="true">
+          <div class="art-circle">✦</div>
+          <span class="art-spark spark-one">✧</span>
+          <span class="art-spark spark-two">✦</span>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Task statistics">
+        <article class="stat-card">
+          <div class="stat-top"><span>Total tasks</span><span class="stat-icon purple">▦</span></div>
+          <strong id="totalStat">0</strong>
+          <small>Tasks in your workspace</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>In progress</span><span class="stat-icon blue">◷</span></div>
+          <strong id="activeStat">0</strong>
+          <small>Still on your list</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Completed</span><span class="stat-icon green">✓</span></div>
+          <strong id="completedStat">0</strong>
+          <small>Wins you've collected</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Overdue</span><span class="stat-icon orange">!</span></div>
+          <strong id="overdueStat">0</strong>
+          <small>Past-due unfinished tasks</small>
+        </article>
+      </section>
+
+      <section class="progress-panel">
+        <div class="progress-heading">
+          <div><span class="progress-kicker">YOUR DAILY PROGRESS</span><h2 id="progressTitle">You're off to a great start!</h2></div>
+          <strong id="progressPercent">0%</strong>
+        </div>
+        <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+        <p id="progressCaption">Add a task and take the first step.</p>
+      </section>
+
+      <section class="task-panel">
+        <div class="section-heading">
+          <div><h2>Your tasks</h2><p>One step at a time. You've got this.</p></div>
+          <button id="clearCompleted" class="text-button" type="button">Clear completed</button>
+        </div>
+
+        <form id="taskForm" class="task-form">
+          <label class="sr-only" for="taskTitle">Task title</label>
+          <input id="taskTitle" type="text" maxlength="120" placeholder="What would you like to accomplish?" required>
+          <div class="form-options">
+            <label class="select-wrap">
+              <span class="sr-only">Category</span>
+              <select id="taskCategory">
+                <option value="Work">💼 Work</option>
+                <option value="Personal">🌱 Personal</option>
+                <option value="Study">📚 Study</option>
+              </select>
+            </label>
+            <label class="select-wrap">
+              <span class="sr-only">Priority</span>
+              <select id="taskPriority">
+                <option value="medium">● Medium priority</option>
+                <option value="high">▲ High priority</option>
+                <option value="low">▽ Low priority</option>
+              </select>
+            </label>
+            <label class="date-wrap">
+              <span class="sr-only">Due date</span>
+              <input id="taskDue" type="date" aria-label="Due date">
+            </label>
+            <button class="add-button" type="submit"><span>＋</span> Add task</button>
+          </div>
+        </form>
+
+        <div class="task-toolbar">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" type="button">All tasks</button>
+            <button class="filter-tab" data-filter="active" type="button">Active</button>
+            <button class="filter-tab" data-filter="completed" type="button">Completed</button>
+          </div>
+          <label class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Search tasks..." aria-label="Search tasks">
+          </label>
+        </div>
+
+        <div id="taskList" class="task-list" aria-live="polite"></div>
+        <div id="emptyState" class="empty-state">
+          <div class="empty-illustration">✦</div>
+          <h3 id="emptyTitle">A fresh start!</h3>
+          <p id="emptyMessage">Add your first task above and turn your plans into progress.</p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Made for better days <span class="footer-heart">♥</span></span>
+        <span>TaskFlow · Your progress, your pace.</span>
+      </footer>
+    </main>
+  </div>
+  <!-- EDIT TASK DIALOG -->
+<dialog id="editDialog" class="edit-dialog">
+  <form id="editForm">
+    <h2>Edit task</h2>
+
+    <label for="editTitle">Task title</label>
+    <input id="editTitle" type="text" maxlength="120" required>
+
+    <label for="editCategory">Category</label>
+    <select id="editCategory">
+      <option value="Work">Work</option>
+      <option value="Personal">Personal</option>
+      <option value="Study">Study</option>
+    </select>
+
+    <label for="editPriority">Priority</label>
+    <select id="editPriority">
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    </select>
+
+    <label for="editDue">Due date</label>
+    <input id="editDue" type="date">
+
+    <div class="edit-actions">
+      <button id="cancelEdit" type="button">Cancel</button>
+      <button id="closeEdit" type="button" aria-label="Close">×</button>
+      <button type="submit">Save changes</button>
+    </div>
+  </form>
+</dialog>
+
+  <!-- Dashboard Features -->
+  <section class="features-grid">
+
+    <!-- Completed History -->
+    <section class="feature-panel history-panel">
+      <div class="feature-heading">
+        <div>
+          <span class="feature-eyebrow">YOUR ACHIEVEMENTS</span>
+          <h2>Completed History</h2>
+          <p>Your completed tasks in one place.</p>
+        </div>
+        <span class="history-count" id="historyCount">0</span>
+      </div>
+
+      <div id="historyList" class="history-list"></div>
+
+      <div id="historyEmpty" class="history-empty">
+        <span>✓</span>
+        <h3>No completed tasks yet</h3>
+        <p>Complete your first task to see it here.</p>
+      </div>
+    </section>
+
+    <!-- Pomodoro Focus Timer -->
+    <article class="feature-panel focus-panel">
+      <div class="feature-heading">
+        <div>
+          <p class="feature-eyebrow">STAY IN THE ZONE</p>
+          <h2>Focus room</h2>
+          <p class="feature-subtitle">One thing at a time. No rush.</p>
+        </div>
+        <span class="feature-icon">◷</span>
+      </div>
+
+      <div class="timer-mode">
+        <button class="timer-mode-btn active" data-minutes="25" data-mode="focus" type="button">Focus · 25m</button>
+        <button class="timer-mode-btn" data-minutes="5" data-mode="break" type="button">Short break · 5m</button>
+      </div>
+
+      <div class="timer-ring" id="timerRing">
+        <div class="timer-inner">
+          <strong id="timerDisplay">25:00</strong>
+          <span id="timerStatus">READY TO FOCUS</span>
+        </div>
+      </div>
+
+      <div class="timer-controls">
+        <button id="timerStart" class="add-button" type="button">▶ Start focus</button>
+        <button id="timerReset" class="secondary-button" type="button">↺ Reset</button>
+      </div>
+
+      <p class="timer-note" id="timerNote">Take a deep breath. You've got this.</p>
+    </article>
+
+  </section>
+
+  <!-- Task Backup Tools -->
+  <section class="backup-bar">
+    <div>
+      <strong>Keep your tasks safe</strong>
+      <p>Export a backup or restore tasks from a JSON file.</p>
+    </div>
+
+    <div class="backup-actions">
+      <button id="exportTasks" class="secondary-button" type="button">↓ Export backup</button>
+      <button id="importTasksButton" class="secondary-button" type="button">↑ Import backup</button>
+      <input id="importTasksFile" type="file" accept=".json,application/json" hidden>
+    </div>
+  </section>
+
+  <!-- Undo Delete -->
+  <div id="undoToast" class="undo-toast" role="status" aria-live="polite" hidden>
+    <span>Task deleted</span>
+    <button id="undoDelete" type="button">UNDO</button>
+  </div>
+  <!-- CONGRATULATIONS POPUP -->
+<div id="celebration" class="celebration-overlay" hidden>
+
+    <div id="confettiLayer" class="confetti-layer"></div>
+
+    <div class="celebration-card">
+
+        <button
+            id="closeCelebration"
+            class="celebration-close"
+            type="button"
+            aria-label="Close popup"
+        >
+            &times;
+        </button>
+
+        <div class="celebration-icon">🎉</div>
+
+        <h2 id="celebrationTitle">
+            Cheers! You did it!
+        </h2>
+
+        <p id="celebrationMessage">
+            Great work! Every little win counts.
+        </p>
+
+        <button
+            id="celebrationOkay"
+            type="button"
+            class="celebration-button"
+        >
+            Awesome!
+        </button>
+
+    </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
